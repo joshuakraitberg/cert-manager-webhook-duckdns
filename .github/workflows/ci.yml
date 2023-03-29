@@ -1,3 +1,4 @@
+---
 name: CI
 
 on:
@@ -24,7 +25,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           filters: |
             go:
-              - '.github/workflows/ci.yaml'
+              - '.github/workflows/ci.yml'
               - 'Dockerfile'
               - '**/*.go'
               - 'go.mod'
@@ -59,6 +60,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
+          platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
           push: true
           tags: joshuakraitberg/cert-manager-webhook-duckdns:latest
