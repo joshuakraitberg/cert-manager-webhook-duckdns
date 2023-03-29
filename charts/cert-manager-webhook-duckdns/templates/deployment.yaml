@@ -17,6 +17,10 @@ spec:
         app.kubernetes.io/name: {{ include "cert-manager-webhook-duckdns.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- with .Values.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       serviceAccountName: {{ include "cert-manager-webhook-duckdns.fullname" . }}
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -39,6 +43,10 @@ spec:
             - name: https
               containerPort: 443
               protocol: TCP
+          {{- with .Values.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           livenessProbe:
             httpGet:
               scheme: HTTPS
