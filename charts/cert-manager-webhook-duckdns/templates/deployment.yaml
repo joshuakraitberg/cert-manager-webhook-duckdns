@@ -31,6 +31,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
+            - --secure-port={{ .Values.containerPort | default 8443 }}
             - --tls-cert-file=/tls/tls.crt
             - --tls-private-key-file=/tls/tls.key
           {{- if .Values.logLevel }}
@@ -41,7 +42,7 @@ spec:
               value: {{ .Values.groupName | quote }}
           ports:
             - name: https
-              containerPort: 443
+              containerPort: {{ .Values.containerPort | default 8443 }}
               protocol: TCP
           {{- with .Values.containerSecurityContext }}
           securityContext:
